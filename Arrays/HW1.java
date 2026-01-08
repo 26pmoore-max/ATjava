@@ -33,7 +33,7 @@ public class HW1 {
 
         double average = sum / count;
 
-        System.out.println("\nCount: " + count);
+        System.out.println("Count: " + count);
         System.out.println("Average: " + average);
         System.out.println("Max: " + max);
     }
