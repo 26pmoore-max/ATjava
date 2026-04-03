@@ -5,7 +5,7 @@ public class DEMO {
     public static void main(String[] args) {
 
         try {
-            double result = Algebra.harmonicMean(4, 6);
+            double result = Algebra.harmonicMean(1, 2);
             System.out.println("Harmonic Mean: " + result);
 
         } catch (IllegalArgumentException e) {
