@@ -47,12 +47,26 @@ public class Yard {
     }
 
     // prints the current state of the yard
-    public void printYard() {
-        for (int i = 0; i < yard.length; i++) {
-            for (int j = 0; j < yard[0].length; j++) {
+    public void printYard(Mower mower) {
+    for (int i = 0; i < yard.length; i++) {
+        for (int j = 0; j < yard[0].length; j++) {
+
+            if (mower != null && i == mower.getRow() && j == mower.getCol()) {
+
+                char symbol = '^';
+
+                if (mower.getDirection() == 0) symbol = '^';
+                else if (mower.getDirection() == 1) symbol = '>';
+                else if (mower.getDirection() == 2) symbol = 'v';
+                else if (mower.getDirection() == 3) symbol = '<';
+
+                System.out.print(symbol);
+
+            } else {
                 System.out.print(yard[i][j]);
             }
-            System.out.println();
         }
+        System.out.println();
+     }
     }
 }
