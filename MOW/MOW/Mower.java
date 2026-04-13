@@ -1,5 +1,7 @@
 package MOW;
 
+import java.util.Random;
+
 public class Mower {
 
     private int row;
@@ -74,5 +76,69 @@ public class Mower {
     // cut grass
     public void cutGrass(Yard yard) {
         yard.setCell(row, col, ' ');
+    }
+
+    // randomize starting position
+    public void randomizeStart(Yard yard) {
+
+        Random rand = new Random();
+
+        int height = yard.getLawnHeight();
+        int width = yard.getLawnWidth();
+
+        int corner = rand.nextInt(4);
+
+        if (corner == 0) {
+            row = 1;
+            col = 1;
+        }
+        else if (corner == 1) {
+            row = 1;
+            col = width;
+        }
+        else if (corner == 2) {
+            row = height;
+            col = width;
+        }
+        else {
+            row = height;
+            col = 1;
+        }
+
+        // random direction
+        direction = rand.nextInt(4);
+    }
+
+    // update mower movement (spiral)
+    public boolean updateMower(Yard yard) {
+
+        cutGrass(yard);
+
+        // forward
+        if (senseFront(yard) == '+') {
+            moveForward();
+            return true;
+        }
+
+        // right
+        turnRight();
+        if (senseFront(yard) == '+') {
+            moveForward();
+            return true;
+        }
+
+        // left
+        turnLeft();
+        turnLeft();
+        if (senseFront(yard) == '+') {
+            moveForward();
+            return true;
+        }
+
+        // reset direction
+        turnRight();
+
+        // no moves left
+        return false;
     }
 }

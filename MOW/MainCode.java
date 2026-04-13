@@ -4,13 +4,11 @@ import java.util.Scanner;
 
 public class MainCode {
 
-    // clear the console screen
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    // delay method
     public static void delay(long mseconds) {
         try {
             Thread.sleep(mseconds);
@@ -24,7 +22,6 @@ public class MainCode {
         clearScreen();
         Scanner scanner = new Scanner(System.in);
 
-        // prompt the user for the lawn size
         System.out.print("enter the height of the lawn: ");
         int height = scanner.nextInt();
 
@@ -33,31 +30,24 @@ public class MainCode {
 
         System.out.println();
 
-        // create yard
         Yard yard = new Yard(height, width);
 
-        // place mower on left side of lawn
-        // row = 2 puts it inside the lawn
-        // col = 1 is just inside left border
-        // direction = 1 means facing right
-        Mower mower = new Mower(2, 1, 1);
+        // create mower
+        Mower mower = new Mower(1, 1, 1);
 
-        // animate mower moving across lawn
-        while (mower.senseFront(yard) != 'R') {
+        // random start
+        mower.randomizeStart(yard);
+
+        // animate mowing
+        while (mower.updateMower(yard)) {
 
             clearScreen();
-
-            mower.cutGrass(yard);
             yard.printYard(mower);
-
-            delay(500);
-
-            mower.moveForward();
+            delay(200);
         }
 
-        // print final position
+        // final print
         clearScreen();
-        mower.cutGrass(yard);
         yard.printYard(mower);
 
         scanner.close();
