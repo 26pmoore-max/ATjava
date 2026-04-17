@@ -1,11 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 
 public class GraphicsApplication {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("AffineTransform Board");
+        JFrame frame = new JFrame("Image Display");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.add(new Board());
@@ -17,8 +19,16 @@ public class GraphicsApplication {
 
 class Board extends JPanel {
 
+    BufferedImage img;
+
     public Board() {
         this.setPreferredSize(new Dimension(350, 350));
+
+        try {
+            img = ImageIO.read(new File("IMG_8415.JPG"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -32,23 +42,15 @@ class Board extends JPanel {
         int panelWidth = getWidth();
         int panelHeight = getHeight();
 
-        Rectangle2D rect = new Rectangle2D.Double(0, 0, 150, 150);
-//resourced ai to help me with this affline stuff
-        AffineTransform at = new AffineTransform();
+        // Scale image to 1/4 of panel size
+        int newWidth = panelWidth / 2;
+        int newHeight = panelHeight / 2;
 
-        
-        at.translate(panelWidth / 2.0 - 75, panelHeight / 2.0 - 75);
+        // Position image in bottom-right corner
+        int x = panelWidth - newWidth;
+        int y = panelHeight - newHeight;
 
-     
-        double angle = Math.toRadians(22.5);
-        at.rotate(angle, 75, 75);
-
-  
-        g2.setColor(Color.BLACK);
-        g2.draw(at.createTransformedShape(rect));
-
-        g2.setColor(Color.BLUE);
-        g2.setFont(new Font("Arial", Font.BOLD, 16));
-        g2.drawString("Hello, world!", 10, 20);
+        // Draw the image
+        g2.drawImage(img, x, y, newWidth, newHeight, null);
     }
 }
